@@ -1,4 +1,4 @@
-# Import data from the CSV file
+true# Import data from the CSV file
 $CSVFile = "C:\Users\Administrateur\Documents\ActiveDirectoryScript\files.csv"
 $CSVData = Import-Csv -Path $CSVFile -Delimiter "," -Encoding Default
 
@@ -9,7 +9,7 @@ foreach ($User in $CSVData) {
     $UserName = $User.Username
     $UserBirthDate = [datetime]::ParseExact($User.Birthdate, "dd/MM/yyyy", $null)
     $UserLogin = ($UserForename).Substring(0,1).ToLower() + "." + $UserName.ToLower()
-    $UserMail = $UserLogin + "@devops-regnilo.local"
+    $UserMail = $UserLogin + "@devopsregnilo.local"
     
     # Create password using forename and birth day and month
     $UserPassword = $UserForename + $UserBirthDate.ToString("ddMM")
@@ -18,7 +18,7 @@ foreach ($User in $CSVData) {
     $UserPermission = $User.permission
 
     # Define the group name based on the site and permission
-    $groupName = "$UserSite $UserPermission" + "s"  # E.g., "Valence Developers" or "Grenoble Admins"
+    $groupName = "$UserPermission"
     
     # Check if user already exists
     if (Get-ADUser -Filter {SamAccountName -eq $UserLogin}) {
@@ -35,7 +35,7 @@ foreach ($User in $CSVData) {
                    -EmailAddress $UserMail `
                    -AccountPassword (ConvertTo-SecureString $UserPassword -AsPlainText -Force) `
                    -Enabled $true `
-                   -Path "OU=Users,DC=devops-regnilo,DC=local" `
+                   -Path "OU=Users,DC=devopsregnilo,DC=local" `
                    -ChangePasswordAtLogon $true `
                    -Description "$UserFonction at $UserSite"
 
