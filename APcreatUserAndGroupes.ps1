@@ -1,10 +1,10 @@
 $tiers = "T0", "T1", "T2"
-$sites= "Site1", "Site2", "Site3"
+$sites = "IT-Valence", "IT-Grenoble", "IT-Chambery"
 # Définir les groupes
 foreach ($tier in $tiers) {
-    New-ADGroup -Name "$tier Admins" -SamAccountName "${tier}Admins" -GroupCategory Security -GroupScope Global -DisplayName "$tier Administrators" -Path "OU=Groups,OU=$tier,DC=devops,DC=forest" -Description "Members of this group are Administrators"
-    New-ADGroup -Name "$tier Developers" -SamAccountName "${tier}Developers" -GroupCategory Security -GroupScope Global -DisplayName "$tier Developers" -Path "OU=Groups,OU=$tier,DC=devops,DC=forest" -Description "Members of this group are Developers"
-    New-ADGroup -Name "$tier Users" -SamAccountName "${tier}Users" -GroupCategory Security -GroupScope Global -DisplayName "$tier Users" -Path "OU=Groups,OU=$tier,DC=devops,DC=forest" -Description "Members of this group are Users"
+    New-ADGroup -Name "$tier Admins" -SamAccountName "${tier}Admins" -GroupCategory Security -GroupScope Global -DisplayName "$tier Administrators" -Path "OU=Groups,OU=$tier,DC=devops-regnilo,DC=local" -Description "Members of this group are Administrators"
+    New-ADGroup -Name "$tier Developers" -SamAccountName "${tier}Developers" -GroupCategory Security -GroupScope Global -DisplayName "$tier Developers" -Path "OU=Groups,OU=$tier,DC=devops-regnilo,DC=local" -Description "Members of this group are Developers"
+    New-ADGroup -Name "$tier Users" -SamAccountName "${tier}Users" -GroupCategory Security -GroupScope Global -DisplayName "$tier Users" -Path "OU=Groups,OU=$tier,DC=devops-regnilo,DC=local" -Description "Members of this group are Users"
 
     $string="$tier Admins"
     $admins=Get-ADGroup -Filter { Name -eq $string }
@@ -25,8 +25,8 @@ foreach ($tier in $tiers) {
             GivenName = "FirstName$tier$i"
             Surname = "LastName$tier$i"
             SamAccountName = $username
-            UserPrincipalName = "$username@devops.forest"
-            Path = "OU=Users,OU=$tier,DC=devops,DC=forest"
+            UserPrincipalName = "$username@devops-regnilo.local"
+            Path = "OU=Users,OU=$tier,DC=devops-regnilo,DC=local"
             AccountPassword = $password
             Enabled = $true
             PasswordNeverExpires = $false
@@ -48,9 +48,9 @@ foreach ($tier in $tiers) {
 }
 
 foreach ($site in $sites) {
-    New-ADGroup -Name "$site Admins" -SamAccountName "${site}Admins" -GroupCategory Security -GroupScope Global -DisplayName "$site Administrators" -Path "OU=Groups,OU=$site,OU=Sites,DC=devops,DC=forest" -Description "Members of this group are Administrators"
-    New-ADGroup -Name "$site Developers" -SamAccountName "${site}Developers" -GroupCategory Security -GroupScope Global -DisplayName "$site Developers" -Path "OU=Groups,OU=$site,OU=Sites,DC=devops,DC=forest" -Description "Members of this group are Developers"
-    New-ADGroup -Name "$site Users" -SamAccountName "${site}Users" -GroupCategory Security -GroupScope Global -DisplayName "$site Users" -Path "OU=Groups,OU=$site,OU=Sites,DC=devops,DC=forest" -Description "Members of this group are Users"
+    New-ADGroup -Name "$site Admins" -SamAccountName "${site}Admins" -GroupCategory Security -GroupScope Global -DisplayName "$site Administrators" -Path "OU=Groups,OU=$site,OU=Sites,DC=devops-regnilo,DC=local" -Description "Members of this group are Administrators"
+    New-ADGroup -Name "$site Developers" -SamAccountName "${site}Developers" -GroupCategory Security -GroupScope Global -DisplayName "$site Developers" -Path "OU=Groups,OU=$site,OU=Sites,DC=devops-regnilo,DC=local" -Description "Members of this group are Developers"
+    New-ADGroup -Name "$site Users" -SamAccountName "${site}Users" -GroupCategory Security -GroupScope Global -DisplayName "$site Users" -Path "OU=Groups,OU=$site,OU=Sites,DC=devops-regnilo,DC=local" -Description "Members of this group are Users"
     
     $string="$site Admins"
     $admins=Get-ADGroup -Filter { Name -eq $string }
@@ -70,8 +70,8 @@ foreach ($site in $sites) {
             GivenName = "FirstName$site$i"
             Surname = "LastName$site$i"
             SamAccountName = $username
-            UserPrincipalName = "$username@devops.forest"
-            Path = "OU=Users,OU=$site,OU=Sites,DC=devops,DC=forest"
+            UserPrincipalName = "$username@devops-regnilo.local"
+            Path = "OU=Users,OU=$site,OU=Sites,DC=devops-regnilo,DC=local"
             AccountPassword = $password
             Enabled = $true
             PasswordNeverExpires = $false
